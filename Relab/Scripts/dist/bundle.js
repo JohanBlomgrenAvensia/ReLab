@@ -9752,9 +9752,9 @@ module.exports = getHostComponentFromComposite;
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(32);
 var ReactDOM = __webpack_require__(98);
-var Test_1 = __webpack_require__(184);
+var App_1 = __webpack_require__(187);
 // const store = createStore();
-ReactDOM.render(React.createElement(Test_1.Test, { title: "testme" }), document.getElementById("content"));
+ReactDOM.render(React.createElement(App_1.App, null), document.getElementById("content"));
 
 
 /***/ }),
@@ -22384,7 +22384,10 @@ module.exports = ReactDOMInvalidARIAHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 184 */
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22401,25 +22404,69 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(32);
-var Hello_1 = __webpack_require__(185);
-var Test = /** @class */ (function (_super) {
-    __extends(Test, _super);
-    function Test(props) {
+var ProductList_1 = __webpack_require__(188);
+var App = /** @class */ (function (_super) {
+    __extends(App, _super);
+    function App(props) {
         var _this = _super.call(this, props) || this;
         _this.state = { items: [] };
         return _this;
     }
-    Test.prototype.onShowItems = function () {
+    App.prototype.render = function () {
+        return (React.createElement("div", null,
+            React.createElement(ProductList_1.ProductList, { Title: 'Test' })));
+    };
+    return App;
+}(React.Component));
+exports.App = App;
+;
+
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(32);
+var ProductDetails_1 = __webpack_require__(189);
+var ProductList = /** @class */ (function (_super) {
+    __extends(ProductList, _super);
+    function ProductList(props) {
+        var _this = _super.call(this, props) || this;
+        _this.handleClick = function (item) {
+            _this.setState({
+                selectedItem: item
+            });
+            console.log(item);
+        };
+        _this.state = {
+            items: [],
+            selectedItem: 'Detailsss'
+        };
+        return _this;
+    }
+    ProductList.prototype.onShowItems = function () {
         console.log('Test');
     };
-    Test.prototype.getItems = function () {
+    ProductList.prototype.getItems = function () {
         var _this = this;
         fetch('/Test/GetItems', {
             method: 'get'
         }).then(function (response) {
             response.json().then(function (json) {
                 var arr = Array();
-                console.log(json);
                 json.TestItems.map(function (x) {
                     arr.push(x);
                 });
@@ -22431,27 +22478,30 @@ var Test = /** @class */ (function (_super) {
             console.log(err);
         });
     };
-    Test.prototype.componentDidMount = function () {
+    ProductList.prototype.componentDidMount = function () {
         this.getItems();
     };
-    Test.prototype.renderItems = function () {
+    ProductList.prototype.renderItems = function () {
+        var _this = this;
         return this.state.items.map(function (item, i) {
-            return (React.createElement("li", { key: i }, item.Title));
+            return (React.createElement("li", { key: i, onClick: function () { return _this.handleClick(item.Title); } }, item.Title));
         });
     };
-    Test.prototype.render = function () {
+    ProductList.prototype.render = function () {
         return (React.createElement("div", null,
-            React.createElement(Hello_1.Hello, { compiler: "a", framework: "b" }),
-            React.createElement("ul", null, this.renderItems())));
+            React.createElement("div", null,
+                React.createElement("ul", null, this.renderItems())),
+            React.createElement("div", null,
+                React.createElement(ProductDetails_1.ProductDetails, { selectedItem: this.state.selectedItem }))));
     };
-    return Test;
+    return ProductList;
 }(React.Component));
-exports.Test = Test;
+exports.ProductList = ProductList;
 ;
 
 
 /***/ }),
-/* 185 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22468,24 +22518,22 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(32);
-// 'HelloProps' describes the shape of props.
-// State is never set so we use the 'undefined' type.
-var Hello = /** @class */ (function (_super) {
-    __extends(Hello, _super);
-    function Hello() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var ProductDetails = /** @class */ (function (_super) {
+    __extends(ProductDetails, _super);
+    function ProductDetails(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            items: []
+        };
+        return _this;
     }
-    Hello.prototype.render = function () {
-        return React.createElement("h1", null,
-            "Hello from ",
-            this.props.compiler,
-            " and ",
-            this.props.framework,
-            "!");
+    ProductDetails.prototype.render = function () {
+        return (React.createElement("div", null,
+            React.createElement("h2", null, this.props.selectedItem)));
     };
-    return Hello;
+    return ProductDetails;
 }(React.Component));
-exports.Hello = Hello;
+exports.ProductDetails = ProductDetails;
 ;
 
 
